@@ -1,0 +1,33 @@
+default_env: dev
+
+environments:
+
+  dev:
+    app:
+      name: enterprise-ai-api
+      log_level: INFO
+
+    llm:
+      base_url: "http://localhost:11434/v1"
+      api_key: "ollama"
+      model: "gpt-oss:20"
+
+  colab:
+    app:
+      name: enterprise-ai-api
+      log_level: INFO
+
+    llm:
+      base_url: "https://cave-beings-decision-conditional.trycloudflare.com"
+      api_key: "ollama"
+      model: "gpt-oss:20"
+
+  prod:
+    app:
+      name: enterprise-ai-api
+      log_level: WARNING
+
+    llm:
+      base_url: "http://llm-service:11434/v1"
+      api_key: "ollama"
+      model: "gpt-oss:20"

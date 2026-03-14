@@ -1,0 +1,10 @@
+faiss-cpu
+openai
+numpy
+langchain
+langchain-community
+langchain-ollama
+langchain-text-splitters
+pydantic
+fastapi
+uvicorn

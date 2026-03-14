@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# virtual environment
+.venv/
+env/
+
+# logs
+*.log
+# Exclusive
+\!rag_practice_coursesa/
+
+**/.ipynb_checkpoints
+.git
+
+.DS_Store
