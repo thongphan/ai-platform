@@ -1,0 +1,9 @@
+app:
+  name: enterprise-ai-api
+  log_level: WARNING
+
+llm:
+  provider: openai
+  base_url: https://api.openai.com/v1
+  api_key: ${OPENAI_API_KEY}
+  model: gpt-4o

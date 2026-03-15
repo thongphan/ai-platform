@@ -1,0 +1,9 @@
+app:
+  name: enterprise-ai-api
+  log_level: INFO
+
+llm:
+  provider: ollama
+  base_url: https://xxxxx.trycloudflare.com
+  api_key: ollama
+  model: gpt-oss:20b

@@ -22,7 +22,7 @@ echo "Set environment"
 export ENV=colab
 
 echo "Start FastAPI"
-nohup uvicorn app.app:app --host 0.0.0.0 --port 8000 &
+nohup uvicorn entry.main:app --host 0.0.0.0 --port 8000 &
 
 echo "Start Cloudflare tunnel"
 wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64

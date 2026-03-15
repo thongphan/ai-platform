@@ -1,30 +1,51 @@
-# Desired Architecture
+# Desired architecture
+To scale an enterprise AI platform
+API Layer
+   |
+Application Layer
+   |
+AI Orchestration Layer
+   |
+Model Provider Layer
+   |
+Infrastructure Layer
 
-Features included:
-- Kafka Event Streaming
-- Temporal-style Workflow Orchestration (local simulator)
-- LLM Planning Agents (stub)
-- Vector Memory Retrieval
-- Graph Knowledge Reasoning
-- Multi-Agent Negotiation
-- AI CTO Architecture
-- Kubernetes Autoscaling Worker Simulation
-# Data and system Architecture
-
-FastAPI API
-     ↓
-Kafka topic: project_events
-     ↓
-Agent Worker
-     ↓
-PlanningAgent.run()
-     ↓
-Temporal.start_workflow()
-     ↓
-Temporal Workflow Engine
-     ↓
-Temporal Worker executes tasks
-
+# End-to-End Flow Architecture
+Request lifecycle in your current design
+Client
+  |
+FastAPI Router
+  |
+Depends(Container.query_service)
+  |
+QueryService
+  |
+LLMModel abstraction
+  |
+ModelFactory
+  |
+Concrete Model (OllamaModel / OpenAIModel)
+  |
+LLM API
+Expanded dependency resolution
+FastAPI Request
+    |
+    v
+APIRouter /ai/query
+    |
+    v
+Container.query_service()  [lru_cache]
+    |
+    +---- Container.model() [lru_cache]
+              |
+              +---- SettingsProvider.get_settings()
+              |          |
+              |          +---- ConfigLoader.load(config.yaml)
+              |
+              +---- ModelFactory.create(settings)
+                          |
+                          +---- OllamaModel(...)
+                          +---- OpenAIModel(...)
 
 Run locally.
 
@@ -38,13 +59,9 @@ docker-compose up -d
 
 ## 3 Run API
 
-uvicorn app:app --reload
+uvicorn application.entry.app:app --reload
 
-## 4 Run Worker
-
-python workers/agent_worker.py
-
-## 5 Test API
+## 4 Test API
 
 POST
 
