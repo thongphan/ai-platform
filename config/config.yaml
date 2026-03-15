@@ -18,7 +18,7 @@ environments:
       log_level: INFO
 
     llm:
-      base_url: "https://cave-beings-decision-conditional.trycloudflare.com"
+      base_url: "https://useful-greater-piece-fought.trycloudflare.com"
       api_key: "ollama"
       model: "gpt-oss:20"
 
