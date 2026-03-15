@@ -53,22 +53,17 @@ Run locally.
 
 pip install -r requirements.txt
 
-## 2 Start Kafka
-
-docker-compose up -d
-
-## 3 Run API
+## 2 Run API
 
 uvicorn application.entry.app:app --reload
 
-## 4 Test API
+## 3 Test API
 
 POST
 
-http://localhost:8000/query
+http://localhost:8000/docs
 
 Example payload:
-
 {
 "name":"AI Platform",
 "query":"What is AI agent?"
