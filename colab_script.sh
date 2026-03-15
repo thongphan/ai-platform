@@ -1,34 +1,31 @@
 #!/bin/bash
-echo "--- Starting DevOps Deployment on Colab ---"
 
-# Set Paths
-BASE_DIR="/content/RAG-system"
-IMAGE_FILE="$BASE_DIR/llama_api_deploy.tar"
-APP_NAME="llama-api-app"
+#!chmod +x colab_script.sh
+#!bash colab_script.sh
 
-# 1. Initialize udocker
-if ! command -v udocker &> /dev/null; then
-    echo "[INFO] Installing udocker..."
-    pip install udocker &> /dev/null
-    udocker --allow-root install &> /dev/null
+echo "Starting AI Platform..."
+
+# clone repo if not exists
+if [ ! -d "ai-platform" ]; then
+  git clone https://github.com/thongphan/ai-platform.git
 fi
 
-# 2. Hard Cleanup (Important for fresh starts)
-echo "[INFO] Cleaning up old containers/images..."
-udocker --allow-root rm -f api_service &> /dev/null
-udocker --allow-root rmi $APP_NAME &> /dev/null
+cd ai-platform
 
-# 3. Load the Image
-echo "[INFO] Loading image (this may take a moment)..."
-udocker --allow-root load -i "$IMAGE_FILE"
+echo "Pull latest code"
+git pull origin main
 
-# 4. Create and Run in Background
-echo "[INFO] Creating container..."
-udocker --allow-root create --name=api_service $APP_NAME
+echo "Install dependencies"
+pip install -r requirements.txt
 
-echo "[INFO] Starting FastAPI server..."
-# Note: we use -p 8000:8000 to match your EXPOSE 8000 in Dockerfile
-nohup udocker --allow-root run -e ENV=colab -p 8000:8000 api_service > "$BASE_DIR/api_logs.txt" 2>&1 &
+echo "Set environment"
+export ENV=colab
 
-echo "--- Deployment Complete ---"
-echo "View logs at: $BASE_DIR/api_logs.txt"
+echo "Start FastAPI"
+nohup uvicorn app.app:app --host 0.0.0.0 --port 8000 &
+
+echo "Start Cloudflare tunnel"
+wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+chmod +x cloudflared-linux-amd64
+
+./cloudflared-linux-amd64 tunnel --url http://localhost:8000
