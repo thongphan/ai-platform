@@ -9,8 +9,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # 1. Install dependencies (Layer 1)
-COPY rag_practice_coursesa.txt .
-RUN pip install --no-cache-dir -r rag_practice_coursesa.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 2. Copy code (Layer 2)
 COPY . .
@@ -22,4 +22,4 @@ EXPOSE 8000
 
 # 4. Start FastAPI
 # Using the module path relative to WORKDIR /app
-CMD ["uvicorn", "app.fastapi:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "8000"]
