@@ -1,7 +1,6 @@
-# Autonomous AI PMI Platform — FAANG Architecture (Local Demo)
+# Desired Architecture
 
 Features included:
-
 - Kafka Event Streaming
 - Temporal-style Workflow Orchestration (local simulator)
 - LLM Planning Agents (stub)
@@ -49,13 +48,11 @@ python workers/agent_worker.py
 
 POST
 
-http://localhost:8000/projects/auto-create
+http://localhost:8000/query
 
 Example payload:
 
 {
 "name":"AI Platform",
-"description":"Autonomous AI company OS",
-"team_size":6,
-"deadline_days":90
+"query":"What is AI agent?"
 }
