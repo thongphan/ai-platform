@@ -14,41 +14,27 @@ Infrastructure Layer
 Request lifecycle in your current design
 Client
   |
+Middleware(log_requests)
+  |
+Register(register_models)
+  |
 FastAPI Router
   |
-Depends(Container.query_service)
+Depends(query_service)
   |
 QueryService
   |
-LLMModel abstraction
-  |
-ModelFactory
-  |
-Concrete Model (OllamaModel / OpenAIModel)
-  |
-LLM API
-Expanded dependency resolution
-FastAPI Request
-    |
-    v
-APIRouter /ai/query
-    |
-    v
-Container.query_service()  [lru_cache]
-    |
-    +---- Container.model() [lru_cache]
-              |
-              +---- SettingsProvider.get_settings()
-              |          |
-              |          +---- ConfigLoader.load(config.yaml)
-              |
-              +---- ModelFactory.create(settings)
-                          |
-                          +---- OllamaModel(...)
-                          +---- OpenAIModel(...)
-
+Provider  [lru_cache]
+      |
+      +---- SettingsProvider.get_settings()
+      |          |
+      |          +---- ConfigLoader.load(config.yaml)
+      |
+      +---- ModelFactory.create(settings)
+                  |
+                  +---- OllamaModel(...)
+                  +---- OpenAIModel(...)
 Run locally.
-
 ## 1 Install
 
 pip install -r requirements.txt
